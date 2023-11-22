@@ -12,6 +12,7 @@ export default function Home() {
     <main className="content">
       <div className="border-r-gray-200 border-r">
         <div className="logo">ENSF 619</div>
+        
         <Menu />
       </div>
       <div className="content-box">
