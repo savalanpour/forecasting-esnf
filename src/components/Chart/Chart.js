@@ -16,7 +16,7 @@ const Chart = () => {
       redirect: 'follow'
     };
   
-    fetch("https://api.coincap.io/v2/assets/bitcoin/history?interval=d1", requestOptions)
+    fetch("https://api.coincap.io/v2/assets/bitcoin/history?interval=m30", requestOptions)
     .then(response => response.json())
     .then(result => {
       setData(result.data)

@@ -18,7 +18,7 @@ export default function Home() {
       <div className="content-box">
         <div style={{minHeight: "600px"}}><PriceCurveChart /></div>
         <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-          <Button className="btn" type="primary" >Prediction</Button>
+          <Button className="btn" type="primary" >Prediction Next</Button>
         </div>
       </div>
     </main>
