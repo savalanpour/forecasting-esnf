@@ -3,12 +3,14 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import s from "./Chart.module.css";
 import dayjs from "dayjs";
+import {Button} from "antd";
 
 const Chart = () => {
   const chartRef = useRef();
   const [data, setData] = useState(null)
   const [x, setX] = useState(null)
   const [y, setY] = useState(null)
+  const [last, setLast] = useState(null)
   
   useEffect(() => {
     const requestOptions = {
@@ -27,11 +29,11 @@ const Chart = () => {
       })
       setX(x)
       setY(y)
+      console.log(JSON.stringify(result?.data.length), result?.data.length)
+      setLast(result?.data.length)
     })
     .catch(error => console.log('error', error));
   }, [])
-  console.log("x", x)
-  console.log("y", y)
   const chartOptions = {
     chart: {
       type: 'spline',
@@ -80,19 +82,43 @@ const Chart = () => {
         symbol: 'square'
       },
       // data: [5.2, 5.7, 8.7, 13.9, 18.2, 21.4, 25.0, 26, 22.8, 17.5, 12.1, 7.6]
-      data: x
-    
-    }]
+      data: x,
+      zoneAxis: 'x',
+      zones: [{
+        value: last,
+        color: '#2caffe'
+      }, {
+        color: '#1f7834'
+      }]
+    },]
   };
+  const peredict = () => {
+    setX([...x,
+      ...x.splice(0,200),
+    ] )
+    setY([...y,
+      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
+      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
+      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
+      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
+    ])
+  }
   
   return (
-    <div className={s.chart}>
-      {data ? <HighchartsReact
-        highcharts={Highcharts}
-        options={chartOptions}
-        constructorType="chart"
-        ref={chartRef}
-      /> : null }
+    <div className="content-box">
+      <div style={{minHeight: "600px"}}>
+        <div className={s.chart}>
+          {data ? <HighchartsReact
+            highcharts={Highcharts}
+            options={chartOptions}
+            constructorType="chart"
+            ref={chartRef}
+          /> : null }
+        </div>
+      </div>
+      <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+        <Button className="btn" type="primary" onClick={peredict} >Prediction Next</Button>
+      </div>
     </div>
   );
 };
