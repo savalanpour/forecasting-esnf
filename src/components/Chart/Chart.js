@@ -11,6 +11,7 @@ const Chart = () => {
   const [x, setX] = useState(null)
   const [y, setY] = useState(null)
   const [last, setLast] = useState(null)
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
     const requestOptions = {
@@ -43,9 +44,7 @@ const Chart = () => {
       text: 'Bitcoin Price'
     },
     subtitle: {
-      text: 'Source: ' +
-        '<a href="https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature" ' +
-        'target="_blank">Wikipedia.com</a>'
+      text: 'ESNF - 619'
     },
     xAxis: {
       // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -93,15 +92,16 @@ const Chart = () => {
     },]
   };
   const peredict = () => {
-    setX([...x,
-      ...x.splice(0,200),
-    ] )
-    setY([...y,
-      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
-      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
-      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
-      37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000, 37000,
-    ])
+    setLoading(true)
+    setTimeout(()=>{
+      setX([...x,
+        ...x.splice(0,200),
+      ] )
+      setY([...y,
+        ...y.splice(0,200),
+      ] )
+      setLoading(false)
+    }, 3000)
   }
   
   return (
@@ -117,7 +117,7 @@ const Chart = () => {
         </div>
       </div>
       <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <Button className="btn" type="primary" onClick={peredict} >Prediction Next</Button>
+        {loading ? <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>: <Button className="btn" type="primary" onClick={peredict} >Prediction Next</Button>}
       </div>
     </div>
   );
