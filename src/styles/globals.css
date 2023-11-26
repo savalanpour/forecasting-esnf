@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/rubik-mono-one');
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -128,10 +130,15 @@ a {
   height: 38px;
   display: block;
 }
-
-.box-product {
+.box-product-main {
   width: 800px;
   margin: 80px auto;
+  display: flex;
+  flex-direction: column;
+}
+.box-product {
+  width: 800px;
+  margin: 10px auto;
   display: flex;
   justify-content: center;
 }
@@ -159,4 +166,9 @@ a {
 .box:hover {
   transform: scale(1.03);
   cursor: not-allowed;
+}
+.title-product {
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Rubik Mono One', sans-serif;
 }
