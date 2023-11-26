@@ -10,29 +10,32 @@ export default function Home() {
           <div className="logo">ENSF 619</div>
           <Menu active="1" />
         </div>
-        <div className="box-product">
-          <div className="row-product">
-            <Link href="/bitcoin">
-              <div className="box" style={{cursor: "pointer", background: "#d1e7dd"}}>
-                <img src="/images/bitoin-new.png" width={140} />Bitcoin
-              </div>
-            </Link>
-            <Tooltip placement="top" title="Coming Soon">
-              <div className="box">
-                <img src="/images/Weather.png" width={140} />Weather</div>
-            </Tooltip>
-          </div>
-          <div className="row-product">
-            <Tooltip placement="top" title="Coming Soon">
-              <div className="box">
-                <img src="/images/Influenza.png" height={140} />Influenza
-              </div>
-            </Tooltip>
-            <Tooltip placement="top" title="Coming Soon">
-              <div className="box">
-                <img src="/images/Electricity.png" height={140} />Electricity
-              </div>
-            </Tooltip>
+        <div  className="box-product-main">
+          <div className="title-product">Time series Forecasting App</div>
+          <div className="box-product">
+            <div className="row-product">
+              <Link href="/bitcoin">
+                <div className="box" style={{cursor: "pointer", background: "#d1e7dd"}}>
+                  <img src="/images/bitoin-new.png" width={140} />Bitcoin
+                </div>
+              </Link>
+              <Tooltip placement="top" title="Coming Soon">
+                <div className="box">
+                  <img src="/images/Weather.png" width={140} />Weather</div>
+              </Tooltip>
+            </div>
+            <div className="row-product">
+              <Tooltip placement="top" title="Coming Soon">
+                <div className="box">
+                  <img src="/images/Influenza.png" height={140} />Influenza
+                </div>
+              </Tooltip>
+              <Tooltip placement="top" title="Coming Soon">
+                <div className="box">
+                  <img src="/images/Electricity.png" height={140} />Electricity
+                </div>
+              </Tooltip>
+            </div>
           </div>
         </div>
       </main>

@@ -9,40 +9,13 @@ import axios from 'axios';
 const Chart = () => {
   const chartRef = useRef();
   const [data, setData] = useState(null)
-  const [x, setX] = useState(null)
-  const [y, setY] = useState(null)
+  const [X, setX] = useState(null)
+  const [Y, setY] = useState(null)
   const [last, setLast] = useState(null)
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState('d1');
   
-  const generateFutureBitcoinPrices = (currentPrices) => {
-    const volatility = 0.02; // You can adjust this value to control the randomness/volatility of future prices
-    const futurePrices = [];
-    
-    for (let i = 0; i < currentPrices.length; i++) {
-      const currentPrice = currentPrices[i];
-      const randomChange = Math.random() * 2 * volatility - volatility;
-      const futurePrice = currentPrice * (1 + randomChange);
-      futurePrices.push(futurePrice);
-    }
-    setX([...x,
-      ...futurePrices,
-    ])
-    setY([...y,
-      ...y.splice(0,95),
-    ] )
-    console.log("ssssš333333333333",[...x,
-      ...futurePrices,
-    ] )
-    setLoading(false)
-    return futurePrices;
-  }
-  
   useEffect(() => {
-    axios.get("http://99.79.47.219/get-prediction")
-    .then(data => console.log("http://99.79.47.219/get-prediction",data.data))
-    .catch(error => console.log(error));
-    
     //"BINANCE"
     // BTC
     // let config = {
@@ -78,11 +51,13 @@ const Chart = () => {
     };
     let url;
     const today = new Date();
+    const Date250 = new Date(new Date().setDate(today.getDate() - 250));
     const Date180 = new Date(new Date().setDate(today.getDate() - 180));
+    const Date90 = new Date(new Date().setDate(today.getDate() - 90));
     const Date60 = new Date(new Date().setDate(today.getDate() - 60));
     const Date30 = new Date(new Date().setDate(today.getDate() - 29));
-    if(type === "d1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=${+Date30}&end=${+today}`;
-    if(type === "h6") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h6&start=${+Date30}&end=${+today}`;
+    if(type === "d1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=${+Date250}&end=${+today}`;
+    if(type === "h6") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h6&start=${+Date90}&end=${+today}`;
     if(type === "h2") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h2&start=${+Date30}&end=${+today}`;
     if(type === "h1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h1&start=${+Date30}&end=${+today}`;
     fetch(url, requestOptions)
@@ -91,8 +66,11 @@ const Chart = () => {
       setData(result.data)
       let x = [], y = []
       result?.data.forEach(item => {
-        x.push(+item.priceUsd)
-        y.push(dayjs(item.date).format('YYYY DD MMM'))
+        x.push(Math.round(+item.priceUsd))
+        if(type === "d1") y.push(dayjs(item.date).format('YYYY DD MMM'));
+        if(type === "h6") y.push(dayjs(item.date).format('DD MMM HH:mm'))
+        if(type === "h2") y.push(dayjs(item.date).format('DD MMM HH:mm'))
+        if(type === "h1") y.push(dayjs(item.date).format('DD MMM HH:mm'))
       })
       setX(x)
       setY(y)
@@ -116,7 +94,7 @@ const Chart = () => {
     xAxis: {
       // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       //   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      categories: y,
+      categories: Y,
       accessibility: {
         description: 'Months of the year'
       }
@@ -148,7 +126,7 @@ const Chart = () => {
         symbol: 'square'
       },
       // data: [5.2, 5.7, 8.7, 13.9, 18.2, 21.4, 25.0, 26, 22.8, 17.5, 12.1, 7.6]
-      data: x,
+      data: X,
       zoneAxis: 'x',
       zones: [{
         value: last,
@@ -161,10 +139,21 @@ const Chart = () => {
   const peredict = () => {
     setLoading(true)
     setTimeout(async ()=>{
-
-      const currentPrices = x?.splice(x?.length-96,x.length);
-      const futurePrices = currentPrices?.length > 0 ? generateFutureBitcoinPrices(currentPrices) : null
-      console.log("========", currentPrices, futurePrices);
+      axios.get("http://99.79.47.219/get-prediction")
+      .then(data => {
+        let x = [], y = []
+        data?.data?.prediction.forEach((item, index) => {
+          x.push(Math.round(+(item+30000)))
+          if(type === "d1") y.push(dayjs().add(index, 'day').format('YYYY DD MMM'));
+          if(type === "h6") y.push(dayjs().add(6*index, 'hour').format('DD MMM - HH:mm'))
+          if(type === "h2") y.push(dayjs().add(2*index, 'hour').format('DD MMM - HH:mm'))
+          if(type === "h1") y.push(dayjs().add(index, 'hour').format('DD MMM - HH:mm'))
+        })
+        setX([...X, ...x])
+        setY([...Y, ...y])
+      })
+      .catch(error => console.log(error));
+      setLoading(false)
     }, 3000)
   }
   
