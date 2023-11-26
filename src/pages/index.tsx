@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Link from 'next/link';
 import Menu from "@/components/Menu/Menu";
 import {Tooltip} from "antd";

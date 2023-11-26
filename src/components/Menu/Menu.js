@@ -18,7 +18,7 @@ const items = [
   getItem('Bitcoin', '2', <DollarOutlined />),
 ];
 
-const Menu = (active) => {
+const Menu = ({active}) => {
   const router = useRouter()
   
   const onClick = (e) => {
@@ -29,15 +29,15 @@ const Menu = (active) => {
       router.push('/bitcoin')
     }
   };
-  
   return (
     <AntMenu
       onClick={onClick}
       style={{
         width: 256,
         height: "100%",
+        background: "#f4f3f3"
       }}
-      defaultSelectedKeys={active}
+      defaultSelectedKeys={[active]}
       mode="inline"
       items={items}
     />
