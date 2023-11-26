@@ -139,7 +139,7 @@ const Chart = () => {
   const peredict = () => {
     setLoading(true)
     setTimeout(async ()=>{
-      axios.get("http://99.79.47.219/get-prediction")
+      axios.get("https://99.79.47.219/get-prediction")
       .then(data => {
         let x = [], y = []
         data?.data?.prediction.forEach((item, index) => {
