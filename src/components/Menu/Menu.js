@@ -1,6 +1,8 @@
 import React from 'react';
-import { PieChartOutlined, FormOutlined } from '@ant-design/icons';
+import { PieChartOutlined, DollarOutlined } from '@ant-design/icons';
 import { Menu as AntMenu } from 'antd';
+import { useRouter } from 'next/router'
+import PropTypes from "prop-types";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -13,14 +15,19 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem('Dashboard', '1', <PieChartOutlined />),
-  getItem('How it works', '2', <FormOutlined />),
+  getItem('Bitcoin', '2', <DollarOutlined />),
 ];
 
-const Menu = () => {
+const Menu = (active) => {
+  const router = useRouter()
   
   const onClick = (e) => {
     console.log('click ', e);
-    // router.push(e)
+    if(e?.key === "1") {
+      router.push('/')
+    } else {
+      router.push('/bitcoin')
+    }
   };
   
   return (
@@ -30,11 +37,15 @@ const Menu = () => {
         width: 256,
         height: "100%",
       }}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
+      defaultSelectedKeys={active}
       mode="inline"
       items={items}
     />
   );
 };
+
+Menu.propTypes = {
+  active: PropTypes.string,
+};
+
 export default Menu;

@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import s from "./Chart.module.css";
 import dayjs from "dayjs";
 import {Button, Radio} from "antd";
-// import axios from 'axios';
+import axios from 'axios';
 
 const Chart = () => {
   const chartRef = useRef();
@@ -15,7 +15,34 @@ const Chart = () => {
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState('d1');
   
+  const generateFutureBitcoinPrices = (currentPrices) => {
+    const volatility = 0.02; // You can adjust this value to control the randomness/volatility of future prices
+    const futurePrices = [];
+    
+    for (let i = 0; i < currentPrices.length; i++) {
+      const currentPrice = currentPrices[i];
+      const randomChange = Math.random() * 2 * volatility - volatility;
+      const futurePrice = currentPrice * (1 + randomChange);
+      futurePrices.push(futurePrice);
+    }
+    setX([...x,
+      ...futurePrices,
+    ])
+    setY([...y,
+      ...y.splice(0,95),
+    ] )
+    console.log("ssssš333333333333",[...x,
+      ...futurePrices,
+    ] )
+    setLoading(false)
+    return futurePrices;
+  }
+  
   useEffect(() => {
+    axios.get("http://99.79.47.219/get-prediction")
+    .then(data => console.log("http://99.79.47.219/get-prediction",data.data))
+    .catch(error => console.log(error));
+    
     //"BINANCE"
     // BTC
     // let config = {
@@ -54,9 +81,9 @@ const Chart = () => {
     const Date180 = new Date(new Date().setDate(today.getDate() - 180));
     const Date60 = new Date(new Date().setDate(today.getDate() - 60));
     const Date30 = new Date(new Date().setDate(today.getDate() - 29));
-    if(type === "d1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=1411470720000&end=${+today}`;
-    if(type === "h6") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h6&start=${+Date180}&end=${+today}`;
-    if(type === "h2") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h2&start=${+Date60}&end=${+today}`;
+    if(type === "d1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=${+Date30}&end=${+today}`;
+    if(type === "h6") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h6&start=${+Date30}&end=${+today}`;
+    if(type === "h2") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h2&start=${+Date30}&end=${+today}`;
     if(type === "h1") url = `https://api.coincap.io/v2/assets/bitcoin/history?interval=h1&start=${+Date30}&end=${+today}`;
     fetch(url, requestOptions)
     .then(response => response.json())
@@ -133,14 +160,11 @@ const Chart = () => {
   };
   const peredict = () => {
     setLoading(true)
-    setTimeout(()=>{
-      setX([...x,
-        ...x.splice(0,200),
-      ] )
-      setY([...y,
-        ...y.splice(0,200),
-      ] )
-      setLoading(false)
+    setTimeout(async ()=>{
+
+      const currentPrices = x?.splice(x?.length-96,x.length);
+      const futurePrices = currentPrices?.length > 0 ? generateFutureBitcoinPrices(currentPrices) : null
+      console.log("========", currentPrices, futurePrices);
     }, 3000)
   }
   
