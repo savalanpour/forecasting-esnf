@@ -7,14 +7,14 @@ export default function Home() {
     <div>
       <main className="content">
         <div className="border-r-gray-200 border-r">
-          <div className="logo">ENSF 619</div>
+          <div className="logo">ENSF 619 - F2</div>
           <Menu active="1" />
         </div>
         <div  className="box-product-main">
-          <div className="title-product">Time series Forecasting App</div>
+          <div id="title-product" className="title-product">Time series Forecasting App</div>
           <div className="box-product">
             <div className="row-product">
-              <Link href="/bitcoin">
+              <Link id="bitcoin" href="/bitcoin">
                 <div className="box" style={{cursor: "pointer", background: "#d1e7dd"}}>
                   <img src="/images/bitoin-new.png" width={140} />Bitcoin
                 </div>
