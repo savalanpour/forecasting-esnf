@@ -139,7 +139,7 @@ const Chart = () => {
   const peredict = () => {
     setLoading(true)
     setTimeout(async ()=>{
-      axios.get("http://99.79.47.219/new_data_pred")
+      axios.get("https://cors-anywhere.herokuapp.com/http://99.79.47.219/new_data_pred")
       .then(data => {
         let x = [], y = []
         data?.data?.prediction_price.forEach((item, index) => {
@@ -180,7 +180,10 @@ const Chart = () => {
         </div>
       </div>
       <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        {loading ? <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>: <Button className="btn" type="primary" onClick={peredict} >Prediction Next</Button>}
+        {loading ?
+          <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>:
+          <Button id="Prediction" className="btn" type="primary" onClick={peredict} >Prediction Next</Button>
+        }
       </div>
     </div>
   );
