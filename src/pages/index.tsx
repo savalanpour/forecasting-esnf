@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <main className="content">
         <div className="border-r-gray-200 border-r">
-          <div className="logo">ENSF 619 - F2</div>
+          <div className="logo">ENSF 619</div>
           <Menu active="1" />
         </div>
         <div  className="box-product-main">
