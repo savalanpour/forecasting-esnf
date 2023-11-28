@@ -163,6 +163,10 @@ a {
   justify-content: space-between;
 }
 
+#Prediction {
+  background: #553e70;
+}
+
 .box:hover {
   transform: scale(1.03);
   cursor: not-allowed;
