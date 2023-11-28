@@ -14,6 +14,7 @@ const Chart = () => {
   const [last, setLast] = useState(null)
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState('d1');
+  const [isPredict, setIsPredict] = useState(false);
   
   useEffect(() => {
     //"BINANCE"
@@ -138,6 +139,7 @@ const Chart = () => {
   };
   const peredict = () => {
     setLoading(true)
+    setIsPredict(true)
     setTimeout(async ()=>{
       axios.get("https://cors-anywhere.herokuapp.com/http://99.79.47.219/new_data_pred")
       .then(data => {
@@ -182,7 +184,7 @@ const Chart = () => {
       <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
         {loading ?
           <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>:
-          <Button id="Prediction" className="btn" type="primary" onClick={peredict} >Prediction Next</Button>
+          <div>{!isPredict ? <Button id="Prediction" className="btn" type="primary" onClick={peredict} >Prediction Next</Button> : null}</div>
         }
       </div>
     </div>
