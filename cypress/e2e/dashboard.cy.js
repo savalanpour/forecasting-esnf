@@ -4,14 +4,14 @@ describe("Dashboard page test", () => {
     cy.viewport(1250, 750)
     cy.visit("/")
   })
-  it("Check dashboard page title", () => {
+  it("Check dashboard page load", () => {
     cy.wait(2000)
     cy.get('#title-product').should(
       "have.text",
       "Time series Forecasting App"
     );
   })
-  it("Load bitcoin page", () => {
+  it("Products card works", () => {
     cy.wait(2000)
     cy.get('#bitcoin').click();
   })

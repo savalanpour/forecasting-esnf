@@ -14,6 +14,7 @@ const Chart = () => {
   const [last, setLast] = useState(null)
   const [loading, setLoading] = useState(false)
   const [type, setType] = useState('d1');
+  const [isPredict, setIsPredict] = useState(false);
   
   useEffect(() => {
     //"BINANCE"
@@ -138,12 +139,13 @@ const Chart = () => {
   };
   const peredict = () => {
     setLoading(true)
+    setIsPredict(true)
     setTimeout(async ()=>{
-      axios.get("https://99.79.47.219/get-prediction")
+      axios.get("https://cors-anywhere.herokuapp.com/http://99.79.47.219/new_data_pred")
       .then(data => {
         let x = [], y = []
-        data?.data?.prediction.forEach((item, index) => {
-          x.push(Math.round(+(item+30000)))
+        data?.data?.prediction_price.forEach((item, index) => {
+          x.push(Math.round(+(item)))
           if(type === "d1") y.push(dayjs().add(index, 'day').format('YYYY DD MMM'));
           if(type === "h6") y.push(dayjs().add(6*index, 'hour').format('DD MMM - HH:mm'))
           if(type === "h2") y.push(dayjs().add(2*index, 'hour').format('DD MMM - HH:mm'))
@@ -180,7 +182,10 @@ const Chart = () => {
         </div>
       </div>
       <div className="mb-32 text-center flex w-40 justify-center mx-auto lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        {loading ? <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>: <Button className="btn" type="primary" onClick={peredict} >Prediction Next</Button>}
+        {loading ?
+          <img style={{margin: "-10px auto 0", display: "block"}} width={80} src="/icegif-1265.gif"/>:
+          <div>{!isPredict ? <Button id="Prediction" className="btn" type="primary" onClick={peredict} >Prediction Next</Button> : null}</div>
+        }
       </div>
     </div>
   );
